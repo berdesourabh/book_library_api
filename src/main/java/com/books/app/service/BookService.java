@@ -15,7 +15,7 @@ public interface BookService {
 
     Book update(Long id, Book book) throws BookNotFoundException;
 
-    Book delete(Long id) throws BookNotFoundException;
+    void delete(Long id) throws BookNotFoundException;
 
     Book get(Long id) throws BookNotFoundException;
 

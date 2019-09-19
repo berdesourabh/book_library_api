@@ -53,6 +53,17 @@ public class BookServiceMockTest {
         Mockito.verify(bookRepositoryMock, Mockito.times(1)).save(newBook);
     }
 
+    @Test
+    public void testDelete() {
+        Book bookToDelete = booksData.get(0);
+        Mockito.when(bookRepositoryMock.getOne(1l)).thenReturn(bookToDelete);
+        Mockito.doNothing().when(bookRepositoryMock).delete(Mockito.any(Book.class));
+
+        bookServiceImpl.delete(1l);
+        Mockito.verify(bookRepositoryMock, Mockito.times(1)).getOne(1l);
+        Mockito.verify(bookRepositoryMock, Mockito.times(1)).delete(bookToDelete);
+    }
+
     private void setupData() {
         booksData = Arrays.asList(
                 new Book(1l, "Test book1", "Test author1"),

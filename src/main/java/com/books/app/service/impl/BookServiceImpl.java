@@ -50,11 +50,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public Book delete(Long id) throws BookNotFoundException {
+    public void delete(Long id) throws BookNotFoundException {
         Book existingBook = bookRepository.getOne(id);
         if (isBookValid(existingBook)) {
             bookRepository.delete(existingBook);
-            return existingBook;
         } else throw new BookNotFoundException("Requested Book is not present");
 
     }
