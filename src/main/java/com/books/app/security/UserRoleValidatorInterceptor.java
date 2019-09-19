@@ -1,4 +1,4 @@
-package com.books.app.filter;
+package com.books.app.security;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
