@@ -2,12 +2,10 @@ package com.books.app.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import java.io.Serializable;
 
 @Entity
@@ -20,9 +18,11 @@ public class Book implements Serializable {
     private Long id;
 
     @Column
+    @NotNull(message = "name can not be null")
     private String name;
 
     @Column
+    @NotNull(message = "author can not be null")
     private String author;
 
     @ManyToOne(cascade = CascadeType.REFRESH)

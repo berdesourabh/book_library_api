@@ -3,16 +3,18 @@ package com.books.app.controller;
 import com.books.app.dto.AssignBooksRequest;
 import com.books.app.model.Reader;
 import com.books.app.service.ReaderService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/reader")
+@Api(value = "Reader APIs", description = "apis for Reader")
 public class ReaderController {
 
     @Autowired
@@ -25,7 +27,7 @@ public class ReaderController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> create(@RequestBody Reader reader) {
+    public ResponseEntity<?> create(@Valid @RequestBody Reader reader) {
         Reader newReader = readerService.create(reader);
         return new ResponseEntity<Reader>(newReader, HttpStatus.OK);
     }

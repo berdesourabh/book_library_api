@@ -2,15 +2,18 @@ package com.books.app.controller;
 
 import com.books.app.model.Book;
 import com.books.app.service.BookService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/book")
+@Api(value = "Books APIs")
 public class BookController {
 
     @Autowired
@@ -23,7 +26,7 @@ public class BookController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Book> create(@RequestBody Book request) {
+    public ResponseEntity<Book> create(@Valid @RequestBody Book request) {
         Book newBook = bookService.create(request);
         return new ResponseEntity<>(newBook, HttpStatus.CREATED);
 
