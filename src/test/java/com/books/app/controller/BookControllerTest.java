@@ -51,10 +51,28 @@ public class BookControllerTest {
     }
 
     @Test
+    public void testUpdate() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                .put("/api/book/{bookId}", 1l)
+                .content(asJsonString(new Book(1l, "Test Name", "Test Author")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
     public void testDelete() throws Exception {
         mockMvc.perform(
                 MockMvcRequestBuilders.delete("/api/book/{bookId}", 1))
                 .andExpect(MockMvcResultMatchers.status().isNoContent());
+    }
+
+    @Test
+    public void testGet() throws Exception {
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/api/book/{bookId}", 1))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
 

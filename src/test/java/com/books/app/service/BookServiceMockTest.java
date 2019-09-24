@@ -54,14 +54,35 @@ public class BookServiceMockTest {
     }
 
     @Test
+    public void testUpdate() {
+        Book book = booksData.get(0);
+        Mockito.when(bookRepositoryMock.getOne(Mockito.anyLong())).thenReturn(book);
+        Mockito.when(bookRepositoryMock.save(Mockito.any(Book.class))).thenReturn(book);
+        Book updatedBook = bookServiceImpl.update(1l, book);
+        Assert.assertNotNull(updatedBook);
+
+        Mockito.verify(bookRepositoryMock, Mockito.times(1)).getOne(1l);
+        Mockito.verify(bookRepositoryMock, Mockito.times(1)).save(book);
+    }
+
+    @Test
     public void testDelete() {
         Book bookToDelete = booksData.get(0);
-        Mockito.when(bookRepositoryMock.getOne(1l)).thenReturn(bookToDelete);
+        Mockito.when(bookRepositoryMock.getOne(Mockito.anyLong())).thenReturn(bookToDelete);
         Mockito.doNothing().when(bookRepositoryMock).delete(Mockito.any(Book.class));
 
         bookServiceImpl.delete(1l);
         Mockito.verify(bookRepositoryMock, Mockito.times(1)).getOne(1l);
         Mockito.verify(bookRepositoryMock, Mockito.times(1)).delete(bookToDelete);
+    }
+
+    @Test
+    public void testGet() {
+        Book book = booksData.get(0);
+        Mockito.when(bookRepositoryMock.getOne(Mockito.anyLong())).thenReturn(book);
+        Book existingBook = bookServiceImpl.get(1l);
+        Assert.assertNotNull(existingBook);
+        Mockito.verify(bookRepositoryMock, Mockito.times(1)).getOne(1l);
     }
 
     private void setupData() {
