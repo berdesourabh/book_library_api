@@ -2,7 +2,6 @@ package com.books.app.service.impl;
 
 import com.books.app.exception.BookNotFoundException;
 import com.books.app.exception.InvalidBookException;
-import com.books.app.exception.ReaderNotFoundException;
 import com.books.app.model.Book;
 import com.books.app.repository.BookRepository;
 import com.books.app.repository.ReaderRepository;
@@ -30,7 +29,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public Book create(Book book) throws InvalidBookException {
+    public Book create(Book book) {
 
         if (isBookValid(book)) {
             return bookRepository.save(book);
@@ -39,7 +38,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public Book update(Long id, Book book) throws BookNotFoundException {
+    public Book update(Long id, Book book) {
         Book existingBook = bookRepository.getOne(id);
         if (isBookValid(existingBook)) {
             book.setId(id);
@@ -50,7 +49,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public void delete(Long id) throws BookNotFoundException {
+    public void delete(Long id) {
         Book existingBook = bookRepository.getOne(id);
         if (isBookValid(existingBook)) {
             bookRepository.delete(existingBook);
@@ -60,16 +59,11 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public Book get(Long id) throws BookNotFoundException {
+    public Book get(Long id) {
         Book existingBook = bookRepository.getOne(id);
         if (isBookValid(existingBook)) {
             return existingBook;
         } else throw new BookNotFoundException("Requested Book is not present");
-    }
-
-    @Override
-    public Book getByReader(Long readerId) throws ReaderNotFoundException {
-        return null;
     }
 
     private boolean isBookValid(Book book) {

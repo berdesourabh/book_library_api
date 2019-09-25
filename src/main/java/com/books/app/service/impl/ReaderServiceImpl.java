@@ -1,8 +1,6 @@
 package com.books.app.service.impl;
 
-import com.books.app.exception.BookNotFoundException;
 import com.books.app.exception.InvalidReaderException;
-import com.books.app.exception.ReaderNotFoundException;
 import com.books.app.model.Book;
 import com.books.app.model.Reader;
 import com.books.app.repository.ReaderRepository;
@@ -37,12 +35,12 @@ public class ReaderServiceImpl implements ReaderService {
     }
 
     @Override
-    public Reader assignBooks(List<Long> bookIds, Long readerId) throws ReaderNotFoundException, BookNotFoundException {
+    public Reader assignBooks(List<Long> bookIds, Long readerId) {
         Set<Book> requestedBooks = new HashSet<>();
         Reader currentReader = readerRepository.getOne(readerId);
         bookIds.forEach(bookId -> {
-           Book book =  bookService.get(bookId);
-           book.setReader(currentReader);
+            Book book = bookService.get(bookId);
+            book.setReader(currentReader);
             requestedBooks.add(book);
         });
         currentReader.setBooks(requestedBooks);

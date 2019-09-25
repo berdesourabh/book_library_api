@@ -27,7 +27,7 @@ public class SwaggerConfig {
     }
 
     private ApiInfo metaData() {
-        ApiInfo apiInfo = new ApiInfo(
+        return new ApiInfo(
                 "Books Library APIs",
                 "Books Library store information",
                 "1.0",
@@ -36,7 +36,6 @@ public class SwaggerConfig {
                 "Apache License",
                 "https://www.apache.org/licenses/LICENSE-2.0",
                 Collections.emptyList());
-        return apiInfo;
 
     }
 }

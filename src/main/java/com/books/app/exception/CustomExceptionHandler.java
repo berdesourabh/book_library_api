@@ -44,7 +44,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(InvalidReaderException.class)
     public final ResponseEntity<ErrorResponse> handleInvalidReaderException(InvalidReaderException ex, WebRequest request) {
         ErrorResponse error = new ErrorResponse(ex.getMessage(), INVALID_READER_CODE);
-        return new ResponseEntity<ErrorResponse>(error, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
 }
