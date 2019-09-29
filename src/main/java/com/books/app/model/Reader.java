@@ -27,9 +27,9 @@ public class Reader implements Serializable {
     public Reader() {
     }
 
-    public Reader(Long id, String name) {
-        this.id = id;
+    public Reader(String name, short age) {
         this.name = name;
+        this.age = age;
     }
 
     public Long getId() {
@@ -63,4 +63,10 @@ public class Reader implements Serializable {
     public void setBooks(Set<Book> books) {
         this.books = books;
     }
+
+    public Reader(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
 }

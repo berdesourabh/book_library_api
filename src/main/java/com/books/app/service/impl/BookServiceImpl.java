@@ -6,6 +6,7 @@ import com.books.app.model.Book;
 import com.books.app.repository.BookRepository;
 import com.books.app.repository.ReaderRepository;
 import com.books.app.service.BookService;
+import com.books.app.util.MessagesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +34,7 @@ public class BookServiceImpl implements BookService {
 
         if (isBookValid(book)) {
             return bookRepository.save(book);
-        } else throw new InvalidBookException("Requested Book is not valid");
+        } else throw new InvalidBookException(MessagesUtil.getMessage("book.not.found.001"));
     }
 
     @Override
@@ -43,7 +44,7 @@ public class BookServiceImpl implements BookService {
         if (isBookValid(existingBook)) {
             book.setId(id);
             return bookRepository.save(book);
-        } else throw new BookNotFoundException("Requested Book is not present");
+        } else throw new BookNotFoundException(MessagesUtil.getMessage("book.not.found.001"));
 
     }
 
@@ -53,7 +54,7 @@ public class BookServiceImpl implements BookService {
         Book existingBook = bookRepository.getOne(id);
         if (isBookValid(existingBook)) {
             bookRepository.delete(existingBook);
-        } else throw new BookNotFoundException("Requested Book is not present");
+        } else throw new BookNotFoundException(MessagesUtil.getMessage("book.not.found.001"));
 
     }
 
@@ -63,7 +64,7 @@ public class BookServiceImpl implements BookService {
         Book existingBook = bookRepository.getOne(id);
         if (isBookValid(existingBook)) {
             return existingBook;
-        } else throw new BookNotFoundException("Requested Book is not present");
+        } else throw new BookNotFoundException(MessagesUtil.getMessage("book.not.found.001"));
     }
 
     private boolean isBookValid(Book book) {

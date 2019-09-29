@@ -5,6 +5,12 @@ public class BookRestDto {
     private String name;
     private String author;
 
+    public BookRestDto(String test_name, String test_author) {
+    }
+
+    public BookRestDto() {
+    }
+
     public String getName() {
         return name;
     }

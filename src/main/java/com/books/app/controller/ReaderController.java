@@ -29,7 +29,7 @@ public class ReaderController {
     @PostMapping("/")
     public ResponseEntity<?> create(@Valid @RequestBody Reader reader) {
         Reader newReader = readerService.create(reader);
-        return new ResponseEntity<Reader>(newReader, HttpStatus.OK);
+        return new ResponseEntity<Reader>(newReader, HttpStatus.CREATED);
     }
 
     @PostMapping("/assign")

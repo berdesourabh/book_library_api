@@ -23,38 +23,47 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
+    @Autowired
+    private RestToEntityMapper restToEntityMapper;
+
+    @Autowired
+    private EntityToRestMapper entityToRestMapper;
+
     @GetMapping("/")
     public ResponseEntity<List<BookRestDto>> getAll() {
         List<Book> books = bookService.getAll();
-        List<BookRestDto> bookRestDto = books.stream().map(b -> EntityToRestMapper.convertToBook(b)).collect(Collectors.toList());
+        List<BookRestDto> bookRestDto = books.stream().map(b -> entityToRestMapper.convertToBookRestDto(b)).collect(Collectors.toList());
         return new ResponseEntity<>(bookRestDto, HttpStatus.OK);
     }
 
     @PostMapping("/")
-    public ResponseEntity<Book> create(@Valid @RequestBody BookRestDto request) {
-        Book book = RestToEntityMapper.convertToBook(request);
+    public ResponseEntity<BookRestDto> create(@Valid @RequestBody BookRestDto request) {
+        Book book = restToEntityMapper.convertToBook(request);
         Book newBook = bookService.create(book);
-        return new ResponseEntity<>(newBook, HttpStatus.CREATED);
+        BookRestDto bookRestDto = entityToRestMapper.convertToBookRestDto(newBook);
+        return new ResponseEntity<>(bookRestDto, HttpStatus.CREATED);
 
     }
 
     @PutMapping("/{bookId}")
-    public ResponseEntity<Book> update(@RequestBody BookRestDto request, @PathVariable Long bookId) {
-        Book book = RestToEntityMapper.convertToBook(request);
+    public ResponseEntity<BookRestDto> update(@RequestBody BookRestDto request, @PathVariable Long bookId) {
+        Book book = restToEntityMapper.convertToBook(request);
         Book updatedBook = bookService.update(bookId, book);
-        return new ResponseEntity<>(updatedBook, HttpStatus.OK);
+        BookRestDto bookRestDto = entityToRestMapper.convertToBookRestDto(updatedBook);
+        return new ResponseEntity<>(bookRestDto, HttpStatus.OK);
     }
 
     @DeleteMapping("/{bookId}")
-    public ResponseEntity<Book> delete(@PathVariable Long bookId) {
+    public ResponseEntity<?> delete(@PathVariable Long bookId) {
         bookService.delete(bookId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/{bookId}")
-    public ResponseEntity<Book> get(@PathVariable Long bookId) {
+    public ResponseEntity<?> get(@PathVariable Long bookId) {
         Book book = bookService.get(bookId);
-        return new ResponseEntity<>(book, HttpStatus.OK);
+        BookRestDto bookRestDto = entityToRestMapper.convertToBookRestDto(book);
+        return new ResponseEntity<>(bookRestDto, HttpStatus.OK);
     }
 
 }
