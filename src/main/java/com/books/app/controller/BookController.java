@@ -3,6 +3,7 @@ package com.books.app.controller;
 import com.books.app.datamapper.EntityToRestMapper;
 import com.books.app.datamapper.RestToEntityMapper;
 import com.books.app.dto.BookRestDto;
+import com.books.app.exception.ApiException;
 import com.books.app.model.Book;
 import com.books.app.service.BookService;
 import io.swagger.annotations.Api;
@@ -37,7 +38,7 @@ public class BookController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<BookRestDto> create(@Valid @RequestBody BookRestDto request) {
+    public ResponseEntity<BookRestDto> create(@Valid @RequestBody BookRestDto request) throws ApiException {
         Book book = restToEntityMapper.convertToBook(request);
         Book newBook = bookService.create(book);
         BookRestDto bookRestDto = entityToRestMapper.convertToBookRestDto(newBook);
@@ -46,7 +47,7 @@ public class BookController {
     }
 
     @PutMapping("/{bookId}")
-    public ResponseEntity<BookRestDto> update(@RequestBody BookRestDto request, @PathVariable Long bookId) {
+    public ResponseEntity<BookRestDto> update(@RequestBody BookRestDto request, @PathVariable Long bookId) throws ApiException {
         Book book = restToEntityMapper.convertToBook(request);
         Book updatedBook = bookService.update(bookId, book);
         BookRestDto bookRestDto = entityToRestMapper.convertToBookRestDto(updatedBook);
@@ -54,16 +55,16 @@ public class BookController {
     }
 
     @DeleteMapping("/{bookId}")
-    public ResponseEntity<?> delete(@PathVariable Long bookId) {
+    public ResponseEntity<?> delete(@PathVariable Long bookId) throws ApiException {
         bookService.delete(bookId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/{bookId}")
-    public ResponseEntity<?> get(@PathVariable Long bookId) {
+    public ResponseEntity<BookRestDto> get(@PathVariable Long bookId) throws ApiException {
         Book book = bookService.get(bookId);
         BookRestDto bookRestDto = entityToRestMapper.convertToBookRestDto(book);
-        return new ResponseEntity<>(bookRestDto, HttpStatus.OK);
+        return new ResponseEntity<BookRestDto>(bookRestDto, HttpStatus.OK);
     }
 
 }

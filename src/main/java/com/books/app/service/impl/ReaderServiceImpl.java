@@ -1,6 +1,6 @@
 package com.books.app.service.impl;
 
-import com.books.app.exception.InvalidReaderException;
+import com.books.app.exception.ApiException;
 import com.books.app.model.Book;
 import com.books.app.model.Reader;
 import com.books.app.repository.ReaderRepository;
@@ -29,9 +29,8 @@ public class ReaderServiceImpl implements ReaderService {
 
     @Override
     public Reader create(Reader reader) {
-        if (isValidReader(reader)) {
-            return readerRepository.saveAndFlush(reader);
-        } else throw new InvalidReaderException("Requested reader is not valid");
+//        if (isValidReader(reader)) {
+        return readerRepository.saveAndFlush(reader);
     }
 
     @Override
@@ -39,7 +38,12 @@ public class ReaderServiceImpl implements ReaderService {
         Set<Book> requestedBooks = new HashSet<>();
         Reader currentReader = readerRepository.getOne(readerId);
         bookIds.forEach(bookId -> {
-            Book book = bookService.get(bookId);
+            Book book = null;
+            try {
+                book = bookService.get(bookId);
+            } catch (ApiException e) {
+                e.printStackTrace();
+            }
             book.setReader(currentReader);
             requestedBooks.add(book);
         });

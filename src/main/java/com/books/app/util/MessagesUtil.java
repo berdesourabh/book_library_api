@@ -4,9 +4,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.stereotype.Component;
 
 import java.util.Locale;
 
+@Component
 public class MessagesUtil implements ApplicationContextAware {
 
     private static ApplicationContext appContext;

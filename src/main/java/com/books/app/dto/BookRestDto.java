@@ -5,7 +5,9 @@ public class BookRestDto {
     private String name;
     private String author;
 
-    public BookRestDto(String test_name, String test_author) {
+    public BookRestDto(String name, String author) {
+        this.name = name;
+        this.author = author;
     }
 
     public BookRestDto() {

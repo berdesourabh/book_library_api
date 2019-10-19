@@ -1,5 +1,6 @@
 package com.books.app.service;
 
+import com.books.app.exception.ApiException;
 import com.books.app.model.Book;
 import com.books.app.repository.BookRepository;
 import com.books.app.service.impl.BookServiceImpl;
@@ -42,7 +43,7 @@ public class BookServiceMockTest {
     }
 
     @Test
-    public void testCreate() {
+    public void testCreate() throws ApiException {
         Book newBook = booksData.get(0);
 
         Mockito.when(bookRepositoryMock.save(Mockito.any(Book.class))).thenReturn(newBook);
@@ -54,7 +55,7 @@ public class BookServiceMockTest {
     }
 
     @Test
-    public void testUpdate() {
+    public void testUpdate() throws ApiException {
         Book book = booksData.get(0);
         Mockito.when(bookRepositoryMock.getOne(Mockito.anyLong())).thenReturn(book);
         Mockito.when(bookRepositoryMock.save(Mockito.any(Book.class))).thenReturn(book);
@@ -66,7 +67,7 @@ public class BookServiceMockTest {
     }
 
     @Test
-    public void testDelete() {
+    public void testDelete() throws ApiException {
         Book bookToDelete = booksData.get(0);
         Mockito.when(bookRepositoryMock.getOne(Mockito.anyLong())).thenReturn(bookToDelete);
         Mockito.doNothing().when(bookRepositoryMock).delete(Mockito.any(Book.class));
@@ -77,7 +78,7 @@ public class BookServiceMockTest {
     }
 
     @Test
-    public void testGet() {
+    public void testGet() throws ApiException {
         Book book = booksData.get(0);
         Mockito.when(bookRepositoryMock.getOne(Mockito.anyLong())).thenReturn(book);
         Book existingBook = bookServiceImpl.get(1l);
