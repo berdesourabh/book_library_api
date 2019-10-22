@@ -58,8 +58,8 @@ public class BookServiceImpl implements BookService {
         Book existingBook = bookRepository.getOne(id);
         if (isBookValid(existingBook)) {
             bookRepository.delete(existingBook);
-        }
-        throw new ApiException(new ApiError("BookServiceImpl::delete", "001", "deletion failed", HttpStatus.BAD_REQUEST));
+        } else
+            throw new ApiException(new ApiError("BookServiceImpl::delete", "001", "deletion failed", HttpStatus.BAD_REQUEST));
 
 
     }
