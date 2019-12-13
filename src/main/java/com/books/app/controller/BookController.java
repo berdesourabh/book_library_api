@@ -3,6 +3,7 @@ package com.books.app.controller;
 import com.books.app.datamapper.EntityToRestMapper;
 import com.books.app.datamapper.RestToEntityMapper;
 import com.books.app.dto.BookRestDto;
+import com.books.app.event.CustomEventPublisher;
 import com.books.app.exception.ApiException;
 import com.books.app.model.Book;
 import com.books.app.service.BookService;
@@ -30,11 +31,16 @@ public class BookController {
     @Autowired
     private EntityToRestMapper entityToRestMapper;
 
+    @Autowired
+    private CustomEventPublisher publisher;
+
     @GetMapping("/")
     public ResponseEntity<List<BookRestDto>> getAll() {
         List<Book> books = bookService.getAll();
         List<BookRestDto> bookRestDto = books.stream().map(b -> entityToRestMapper.convertToBookRestDto(b)).collect(Collectors.toList());
+        publisher.publish();
         return new ResponseEntity<>(bookRestDto, HttpStatus.OK);
+
     }
 
     @PostMapping("/")
