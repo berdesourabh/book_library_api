@@ -31,14 +31,10 @@ public class BookController {
     @Autowired
     private EntityToRestMapper entityToRestMapper;
 
-    @Autowired
-    private CustomEventPublisher publisher;
-
     @GetMapping("/")
     public ResponseEntity<List<BookRestDto>> getAll() {
         List<Book> books = bookService.getAll();
         List<BookRestDto> bookRestDto = books.stream().map(b -> entityToRestMapper.convertToBookRestDto(b)).collect(Collectors.toList());
-        publisher.publish();
         return new ResponseEntity<>(bookRestDto, HttpStatus.OK);
 
     }
