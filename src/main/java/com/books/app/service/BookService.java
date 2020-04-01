@@ -1,7 +1,7 @@
 package com.books.app.service;
 
 import com.books.app.exception.ApiException;
-import com.books.app.model.Book;
+import com.books.app.domain.Book;
 
 import java.util.List;
 

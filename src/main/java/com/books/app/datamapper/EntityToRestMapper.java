@@ -1,7 +1,7 @@
 package com.books.app.datamapper;
 
-import com.books.app.dto.BookRestDto;
-import com.books.app.model.Book;
+import com.books.app.model.BookDto;
+import com.books.app.domain.Book;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -10,11 +10,11 @@ public class EntityToRestMapper {
     private EntityToRestMapper() {
     }
 
-    public BookRestDto convertToBookRestDto(final Book book) {
-        BookRestDto bookRestDto = new BookRestDto();
-        bookRestDto.setName(book.getName());
-        bookRestDto.setAuthor(book.getAuthor());
+    public static BookDto convertToBookRestDto(final Book book) {
+        BookDto bookDto = new BookDto();
+        bookDto.setName(book.getName());
+        bookDto.setAuthor(book.getAuthor());
 
-        return bookRestDto;
+        return bookDto;
     }
 }

@@ -1,8 +1,5 @@
-package com.books.app.exception.controller.advice;
+package com.books.app.exception;
 
-import com.books.app.exception.ApiError;
-import com.books.app.exception.ApiException;
-import com.books.app.exception.ReasonCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

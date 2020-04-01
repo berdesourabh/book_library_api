@@ -1,16 +1,16 @@
-package com.books.app.dto;
+package com.books.app.model;
 
-public class BookRestDto {
+public class BookDto {
 
     private String name;
     private String author;
 
-    public BookRestDto(String name, String author) {
+    public BookDto(String name, String author) {
         this.name = name;
         this.author = author;
     }
 
-    public BookRestDto() {
+    public BookDto() {
     }
 
     public String getName() {

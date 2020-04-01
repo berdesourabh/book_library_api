@@ -1,13 +1,14 @@
 package com.books.app.service.impl;
 
+import com.books.app.domain.Book;
 import com.books.app.exception.ApiError;
 import com.books.app.exception.ApiException;
 import com.books.app.exception.ReasonCode;
-import com.books.app.model.Book;
 import com.books.app.repository.BookRepository;
 import com.books.app.repository.ReaderRepository;
 import com.books.app.service.BookService;
 import com.books.app.util.MessagesUtil;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -33,49 +34,47 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public Book create(Book book) throws ApiException {
-
-        if (isBookValid(book)) {
+        try {
             return bookRepository.save(book);
-        } else
+        } catch (Exception ex) {
             throw new ApiException(new ApiError("BookServiceImpl::create", ReasonCode.CREATION_FAILED_003.getCode(), MessagesUtil.getMessage("creation.failed"), HttpStatus.BAD_REQUEST));
+        }
     }
 
     @Override
     @Transactional
     public Book update(Long id, Book book) throws ApiException {
-        Book existingBook = bookRepository.getOne(id);
-        if (isBookValid(existingBook)) {
-            book.setId(id);
-            return bookRepository.save(book);
+        try {
+            if(ObjectUtils.allNotNull(bookRepository.getOne(id))) {
+                book.setId(id);
+                return bookRepository.save(book);
+            }
+            return null;
+        } catch (Exception ex) {
+            throw new ApiException(new ApiError("BookServiceImpl::update", "001", ex.getMessage(), HttpStatus.BAD_REQUEST));
         }
-        throw new ApiException(new ApiError("BookServiceImpl::update", "001", "updation failed", HttpStatus.BAD_REQUEST));
-
     }
 
     @Override
     @Transactional
     public void delete(Long id) throws ApiException {
         Book existingBook = bookRepository.getOne(id);
-        if (isBookValid(existingBook)) {
+        try {
             bookRepository.delete(existingBook);
-        } else
-            throw new ApiException(new ApiError("BookServiceImpl::delete", "001", "deletion failed", HttpStatus.BAD_REQUEST));
+        } catch (Exception ex) {
+            throw new ApiException(new ApiError("BookServiceImpl::delete", "001", ex.getMessage(), HttpStatus.BAD_REQUEST));
 
-
+        }
     }
 
     @Override
     @Transactional
     public Book get(Long id) throws ApiException {
         Book existingBook = bookRepository.getOne(id);
-        if (isBookValid(existingBook)) {
+        try {
             return existingBook;
+        } catch (Exception ex) {
+            throw new ApiException(new ApiError("BookServiceImpl::get", "001", ex.getMessage(), HttpStatus.BAD_REQUEST));
         }
-        throw new ApiException(new ApiError("BookServiceImpl::get", "001", "Fetch failed", HttpStatus.BAD_REQUEST));
-
-    }
-
-    private boolean isBookValid(Book book) {
-        return book != null && !book.getName().isEmpty();
     }
 }

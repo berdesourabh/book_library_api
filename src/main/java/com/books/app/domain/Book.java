@@ -1,4 +1,4 @@
-package com.books.app.model;
+package com.books.app.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

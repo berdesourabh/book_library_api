@@ -1,8 +1,8 @@
 package com.books.app.controller;
 
 
-import com.books.app.dto.AssignBooksRequest;
-import com.books.app.model.Reader;
+import com.books.app.model.AssignBooksRequest;
+import com.books.app.domain.Reader;
 import com.books.app.service.ReaderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
@@ -32,7 +32,7 @@ public class ReaderControllerTest {
     @Test
     public void testGetAll() throws Exception {
         mockMvc.perform(
-                MockMvcRequestBuilders.get("/api/reader/"))
+                MockMvcRequestBuilders.get("/api/readers/"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
@@ -40,7 +40,7 @@ public class ReaderControllerTest {
     @Test
     public void testCreate() throws Exception {
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/api/reader/")
+                MockMvcRequestBuilders.post("/api/readers/")
                         .content(asJsonString(new Reader("Test Name", (short) 25)))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
@@ -48,7 +48,7 @@ public class ReaderControllerTest {
 
     @Test
     public void testAssignBooks() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/reader/assign")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/readers/assign")
                 .param("readerId", String.valueOf(1))
                 .content(asJsonString(new AssignBooksRequest()))
                 .contentType(MediaType.APPLICATION_JSON))
