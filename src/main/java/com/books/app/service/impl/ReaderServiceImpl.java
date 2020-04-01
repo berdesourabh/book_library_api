@@ -1,8 +1,10 @@
 package com.books.app.service.impl;
 
+import com.books.app.datamapper.RestToEntityMapper;
 import com.books.app.exception.ApiException;
-import com.books.app.model.Book;
-import com.books.app.model.Reader;
+import com.books.app.domain.Book;
+import com.books.app.domain.Reader;
+import com.books.app.model.ReaderDto;
 import com.books.app.repository.ReaderRepository;
 import com.books.app.service.BookService;
 import com.books.app.service.ReaderService;
@@ -28,8 +30,8 @@ public class ReaderServiceImpl implements ReaderService {
     }
 
     @Override
-    public Reader create(Reader reader) {
-//        if (isValidReader(reader)) {
+    public Reader create(ReaderDto readerDto) {
+        Reader reader = RestToEntityMapper.convertToReader(readerDto);
         return readerRepository.saveAndFlush(reader);
     }
 
@@ -51,9 +53,4 @@ public class ReaderServiceImpl implements ReaderService {
         readerRepository.saveAndFlush(currentReader);
         return currentReader;
     }
-
-    private boolean isValidReader(Reader reader) {
-        return reader != null && !reader.getName().isEmpty();
-    }
-
 }

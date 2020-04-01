@@ -2,12 +2,13 @@ package com.books.app.controller;
 
 import com.books.app.datamapper.EntityToRestMapper;
 import com.books.app.datamapper.RestToEntityMapper;
-import com.books.app.dto.BookRestDto;
-import com.books.app.event.CustomEventPublisher;
+import com.books.app.model.BookDto;
 import com.books.app.exception.ApiException;
-import com.books.app.model.Book;
+import com.books.app.domain.Book;
 import com.books.app.service.BookService;
+import com.books.app.validator.BookValidator;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/book")
+@RequestMapping("/api/books")
 @Api(value = "Books APIs")
 public class BookController {
 
@@ -31,42 +32,51 @@ public class BookController {
     @Autowired
     private EntityToRestMapper entityToRestMapper;
 
+    @Autowired
+    private BookValidator bookValidator;
+
+    @ApiOperation(tags = "Books", value = "Get all books ", notes = "This API will be used to get list of available books")
     @GetMapping("/")
-    public ResponseEntity<List<BookRestDto>> getAll() {
+    public ResponseEntity<List<BookDto>> getAll() {
         List<Book> books = bookService.getAll();
-        List<BookRestDto> bookRestDto = books.stream().map(b -> entityToRestMapper.convertToBookRestDto(b)).collect(Collectors.toList());
-        return new ResponseEntity<>(bookRestDto, HttpStatus.OK);
+        List<BookDto> bookDto = books.stream().map(b -> entityToRestMapper.convertToBookRestDto(b)).collect(Collectors.toList());
+        return new ResponseEntity<>(bookDto, HttpStatus.OK);
 
     }
 
+    @ApiOperation(tags = "Books", value = "Create Book ", notes = "This API will be used to create new book")
     @PostMapping("/")
-    public ResponseEntity<BookRestDto> create(@Valid @RequestBody BookRestDto request) throws ApiException {
+    public ResponseEntity<BookDto> create(@Valid @RequestBody BookDto request) throws ApiException {
+        bookValidator.validateBookRequest(request, null);
         Book book = restToEntityMapper.convertToBook(request);
         Book newBook = bookService.create(book);
-        BookRestDto bookRestDto = entityToRestMapper.convertToBookRestDto(newBook);
-        return new ResponseEntity<>(bookRestDto, HttpStatus.CREATED);
+        BookDto bookDto = entityToRestMapper.convertToBookRestDto(newBook);
+        return new ResponseEntity<>(bookDto, HttpStatus.CREATED);
 
     }
 
+    @ApiOperation(tags = "Books", value = "Update book ", notes = "This API will be used to update book detail")
     @PutMapping("/{bookId}")
-    public ResponseEntity<BookRestDto> update(@RequestBody BookRestDto request, @PathVariable Long bookId) throws ApiException {
+    public ResponseEntity<BookDto> update(@RequestBody BookDto request, @PathVariable Long bookId) throws ApiException {
         Book book = restToEntityMapper.convertToBook(request);
         Book updatedBook = bookService.update(bookId, book);
-        BookRestDto bookRestDto = entityToRestMapper.convertToBookRestDto(updatedBook);
-        return new ResponseEntity<>(bookRestDto, HttpStatus.OK);
+        BookDto bookDto = entityToRestMapper.convertToBookRestDto(updatedBook);
+        return new ResponseEntity<>(bookDto, HttpStatus.OK);
     }
 
+    @ApiOperation(tags = "Books", value = "Delete Book ", notes = "This API will be used to delete book")
     @DeleteMapping("/{bookId}")
-    public ResponseEntity<?> delete(@PathVariable Long bookId) throws ApiException {
+    public ResponseEntity<String> delete(@PathVariable Long bookId) throws ApiException {
         bookService.delete(bookId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @ApiOperation(tags = "Books", value = "Get book ", notes = "This API will be used to get book by Id")
     @GetMapping("/{bookId}")
-    public ResponseEntity<BookRestDto> get(@PathVariable Long bookId) throws ApiException {
+    public ResponseEntity<BookDto> get(@PathVariable Long bookId) throws ApiException {
         Book book = bookService.get(bookId);
-        BookRestDto bookRestDto = entityToRestMapper.convertToBookRestDto(book);
-        return new ResponseEntity<BookRestDto>(bookRestDto, HttpStatus.OK);
+        BookDto bookDto = entityToRestMapper.convertToBookRestDto(book);
+        return new ResponseEntity<>(bookDto, HttpStatus.OK);
     }
 
 }

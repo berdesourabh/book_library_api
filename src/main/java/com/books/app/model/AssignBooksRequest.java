@@ -1,4 +1,4 @@
-package com.books.app.dto;
+package com.books.app.model;
 
 import java.util.List;
 

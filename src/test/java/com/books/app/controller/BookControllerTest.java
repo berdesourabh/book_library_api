@@ -2,8 +2,9 @@ package com.books.app.controller;
 
 import com.books.app.datamapper.EntityToRestMapper;
 import com.books.app.datamapper.RestToEntityMapper;
-import com.books.app.dto.BookRestDto;
+import com.books.app.model.BookDto;
 import com.books.app.service.BookService;
+import com.books.app.validator.BookValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,6 +31,9 @@ public class BookControllerTest {
     BookService bookService;
 
     @MockBean
+    BookValidator bookValidator;
+
+    @MockBean
     RestToEntityMapper restToEntityMapper;
 
     @MockBean
@@ -38,7 +42,7 @@ public class BookControllerTest {
     @Test
     public void testGetAll() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/api/book/")
+                .get("/api/books/")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
@@ -47,8 +51,8 @@ public class BookControllerTest {
     @Test
     public void testCreate() throws Exception {
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/api/book/")
-                        .content(asJsonString(new BookRestDto("Test Name", "Test Author")))
+                MockMvcRequestBuilders.post("/api/books/")
+                        .content(asJsonString(new BookDto("Test Name", "Test Author")))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
@@ -58,8 +62,8 @@ public class BookControllerTest {
     @Test
     public void testUpdate() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                .put("/api/book/{bookId}", 1l)
-                .content(asJsonString(new BookRestDto("Test Name", "Test Author")))
+                .put("/api/books/{bookId}", 1l)
+                .content(asJsonString(new BookDto("Test Name", "Test Author")))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
@@ -69,14 +73,14 @@ public class BookControllerTest {
     @Test
     public void testDelete() throws Exception {
         mockMvc.perform(
-                MockMvcRequestBuilders.delete("/api/book/{bookId}", 1))
+                MockMvcRequestBuilders.delete("/api/books/{bookId}", 1))
                 .andExpect(MockMvcResultMatchers.status().isNoContent());
     }
 
     @Test
     public void testGet() throws Exception {
         mockMvc.perform(
-                MockMvcRequestBuilders.get("/api/book/{bookId}", 1))
+                MockMvcRequestBuilders.get("/api/books/{bookId}", 1))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
