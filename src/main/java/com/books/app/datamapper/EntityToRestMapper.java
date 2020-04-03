@@ -1,7 +1,7 @@
 package com.books.app.datamapper;
 
-import com.books.app.model.BookDto;
 import com.books.app.domain.Book;
+import com.books.app.model.BookDto;
 import org.springframework.stereotype.Component;
 
 @Component

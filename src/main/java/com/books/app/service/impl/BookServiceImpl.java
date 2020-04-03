@@ -45,7 +45,7 @@ public class BookServiceImpl implements BookService {
     @Transactional
     public Book update(Long id, Book book) throws ApiException {
         try {
-            if(ObjectUtils.allNotNull(bookRepository.getOne(id))) {
+            if (ObjectUtils.allNotNull(bookRepository.getOne(id))) {
                 book.setId(id);
                 return bookRepository.save(book);
             }

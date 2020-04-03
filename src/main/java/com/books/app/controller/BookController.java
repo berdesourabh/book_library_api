@@ -43,7 +43,6 @@ public class BookController {
         List<Book> books = bookService.getAll();
         List<BookDto> bookDto = books.stream().map(EntityToRestMapper::convertToBookRestDto).collect(Collectors.toList());
         return new ResponseEntity<>(bookDto, HttpStatus.OK);
-
     }
 
     @ApiOperation(tags = "Books", value = "Create Book ", notes = "This API will be used to create new book")
@@ -53,8 +52,8 @@ public class BookController {
         Book book = RestToEntityMapper.convertToBook(request);
         Book newBook = bookService.create(book);
         BookDto bookDto = EntityToRestMapper.convertToBookRestDto(newBook);
-        return new ResponseEntity<>(bookDto, HttpStatus.CREATED);
 
+        return new ResponseEntity<>(bookDto, HttpStatus.CREATED);
     }
 
     @ApiOperation(tags = "Books", value = "Update book ", notes = "This API will be used to update book detail")
