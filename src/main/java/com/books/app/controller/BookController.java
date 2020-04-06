@@ -31,9 +31,6 @@ public class BookController {
     private BookService bookService;
 
     @Autowired
-    private EntityToRestMapper entityToRestMapper;
-
-    @Autowired
     private BookValidator bookValidator;
 
     @ApiOperation(tags = "Books", value = "Get all books ", notes = "This API will be used to get list of available books")

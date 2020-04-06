@@ -1,6 +1,8 @@
 package com.books.app.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -10,6 +12,7 @@ import java.util.Set;
 @Entity
 @Table(name = "reader")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@AllArgsConstructor
 public class Reader implements Serializable {
 
     @Id
@@ -28,6 +31,12 @@ public class Reader implements Serializable {
     }
 
     public Reader(String name, short age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public Reader(Long id, @NotNull(message = "name can not be null") String name, short age) {
+        this.id = id;
         this.name = name;
         this.age = age;
     }
@@ -63,10 +72,4 @@ public class Reader implements Serializable {
     public void setBooks(Set<Book> books) {
         this.books = books;
     }
-
-    public Reader(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
 }

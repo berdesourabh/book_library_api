@@ -4,14 +4,13 @@ import com.books.app.domain.Book;
 import com.books.app.domain.Reader;
 import com.books.app.model.BookDto;
 import com.books.app.model.ReaderDto;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 
 @Component
+@NoArgsConstructor
 public class RestToEntityMapper {
-
-    private RestToEntityMapper() {
-    }
 
     public static Book convertToBook(final BookDto bookDto) {
         Book book = new Book();

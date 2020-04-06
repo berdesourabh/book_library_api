@@ -8,6 +8,9 @@ import com.books.app.model.ReaderDto;
 import com.books.app.repository.ReaderRepository;
 import com.books.app.service.BookService;
 import com.books.app.service.ReaderService;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +19,10 @@ import java.util.List;
 import java.util.Set;
 
 @Service
+@Slf4j
 public class ReaderServiceImpl implements ReaderService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReaderServiceImpl.class);
 
     @Autowired
     private ReaderRepository readerRepository;
@@ -43,11 +49,11 @@ public class ReaderServiceImpl implements ReaderService {
             Book book = null;
             try {
                 book = bookService.get(bookId);
+                book.setReader(currentReader);
+                requestedBooks.add(book);
             } catch (ApiException e) {
-                e.printStackTrace();
+                LOGGER.error(e.getMessage());
             }
-            book.setReader(currentReader);
-            requestedBooks.add(book);
         });
         currentReader.setBooks(requestedBooks);
         readerRepository.saveAndFlush(currentReader);

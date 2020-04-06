@@ -4,6 +4,7 @@ import com.books.app.exception.ApiException;
 import com.books.app.domain.Book;
 import com.books.app.repository.BookRepository;
 import com.books.app.service.impl.BookServiceImpl;
+import com.books.app.testutils.TestDataSupplier;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -85,11 +86,7 @@ public class BookServiceMockTest {
     }
 
     private void setupData() {
-        booksData = Arrays.asList(
-                new Book(1l, "Test book1", "Test author1"),
-                new Book(2l, "Test book2", "Test author2"),
-                new Book(3l, "Test book3", "Test author3")
-        );
+        booksData = TestDataSupplier.setUpBookList();
     }
 
 }
